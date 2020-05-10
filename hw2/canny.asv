@@ -1,0 +1,99 @@
+function ans=canny(filename) 
+    k=2;
+    par=1;
+    rmunifnoise(filename);
+    filename=readraw("RG.raw");
+    mm=filename;
+    matrix99=zeros(3,3,'double');
+    %matrix254=zeros(510,510,'double');
+    for i=2:length(filename)-1
+        for j=2:length(filename)-1
+            
+            %s=filename(i-1:i+1,j-1:j+1);
+            %matrix99=s;
+            %RG=filename(i,j)-filename(i+1,j+1);
+            %RC=filename(i,j+1)-filename(i+1,j);
+            GR=filename(i,j)-filename(i,j-1);
+            GC=filename(i,j)-filename(i+1,j);          
+            G=(GR^2+GC^2)^0.5;
+            theta=atan(GC/(GR+0.000000001));
+            
+            right_i=round(i+sin(theta));
+            right_j=round(j+cos(theta));
+            left_i=round(i-sin(theta));
+            left_j=round(j-cos(theta));
+            if right_i<1 
+                disp(right_i);
+               
+            end
+            if right_j<1 
+                disp(right_j)
+                
+            end
+            if left_i<1 
+                disp(left_i)
+                
+            end
+            if left_j<1 
+               disp(left_j)
+                
+            end
+            GRr=filename(right_i,right_j)-filename(right_i,right_j-1);
+            GCr=filename(right_i,right_j)-filename(right_i+1,right_j);          
+            Gr=(GRr^2+GCr^2)^0.5;
+            
+            GRl=filename(left_i,left_j)-filename(left_i,left_j-1);
+            GCl=filename(left_i,left_j)-filename(left_i+1,left_j);          
+            Gl=(GRl^2+GCl^2)^0.5;
+            
+            
+           
+            
+            
+             
+              if (G>Gl & G>Gr)
+                  mm(i,j)=round(G);
+              else
+                  mm(i,j)=0;
+              end
+              
+     
+           
+            
+            
+                
+            
+            
+        end
+      end
+%        for i = 1:512*512
+%     		if mm(i)>par
+%     			mm(i)=255;
+%             else
+%                 mm(i)=0;
+%     		end
+%     	end
+%      
+    
+    
+     disp(mm)
+    writeraw(mm,"canny.raw");
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+end

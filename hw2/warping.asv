@@ -1,0 +1,23 @@
+function ans=warping(filename)
+    filename=readraw(filename);
+    mm=filename;
+    len=length(filename);
+   
+    for i=2:length(filename)-2
+        for j=2:length(filename)-2
+            
+           
+           
+%            distorted_j = mod((j + round(100*sin(i/90)) + length(mm)) , length(mm));
+%            distorted_i = mod((i + round(100*sin(j/90)) + length(mm)) , length(mm));
+%             disp(distorted_j)
+            distorted_i=i+sind(30)
+            
+            
+           mm(i,j) = filename(distorted_i+1,distorted_j+1);
+            
+            
+        end
+    end
+    writeraw(mm,"warping.raw");
+end
